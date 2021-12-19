@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+
+body {
+    border-top: 10px solid #C4DEFF;
+    font-family: 'Jua', sans-serif; /* 폰트 적용 */
+}
+
+li a {
+    font-size: 23px;
+}
+
+a {
+    margin-left : 15px;
+}

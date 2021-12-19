@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+
+    {% load static %}
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<div class="container">
+
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+      <a class="navbar-brand" href="{% url 'home:home' %}">Django Project</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+
+          <!--메뉴바 : Login / Logout-->
+          <li class="nav-item active">
+            {% if user.is_authenticated %}
+              <!--로그인이 되어있으면 username(logout)으로 표시--!>
+                <a class="nav-link" href="{% url 'common:logout' %}">{{ user.username }} (Logout) </a>
+            {% else %}
+              <!--로그인이 안되어있으면 login으로 표시--!>
+                <a class="nav-link" href="{% url 'common:login' %}">Login </a>
+            {% endif %}
+          </li>
+
+          <!--메뉴바 : Home-->
+          <li class="nav-item active">
+            <a class="nav-link" href="{% url 'home:home' %}">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <!--메뉴바 : Polls-->
+          <li class="nav-item active">
+            <a class="nav-link" href="{% url 'polls:index' %}">Polls <span class="sr-only">(current)</span></a>
+          </li>
+          <!--메뉴바 : Bookmark-->
+          <li class="nav-item active">
+            <a class="nav-link" href="{% url 'bookmark:list' %}">Bookmark <span class="sr-only">(current)</span></a>
+          </li>
+          <!--메뉴바 : Blog-->
+          <li class="nav-item active">
+            <a class="nav-link" href="{% url 'blog:post_list' %}">Blog <span class="sr-only">(current)</span></a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <p></p>
+    <div class="row">
+        <div class="col">
+            {% block content %}
+            {% endblock %}
+
+            {% block pagination %}
+            {% endblock %}
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

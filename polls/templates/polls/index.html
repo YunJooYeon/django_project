@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %} Polls {% endblock %}
+
+{% block content %}
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'polls/style.css' %}">
+
+    <!--목록화면에서 전체 결과 화면으로 갈 수 있는 버튼-->
+    <form action="{% url 'polls:allresults' %}" class="all_results_button">
+        {% csrf_token %}
+        <input type="submit" value="Do you want to see the results of all the questions?" id="gotoAllResults">
+    </form>
+
+    <br><br>
+
+    <!--index 템플릿 코드-->
+      {% if latest_question_list %}
+      <!--latest_question_list 객체에 내용이 있으면 index() 뷰 함수에 넘겨줌 -->
+        <ul>
+            {% for question in latest_question_list %}
+            <!--latest_question_list 객체의 내용을 순회하면서
+            question_text를 리스트로 각 텍스트에 URL 링크로 연결해 화면에 보여줌-->
+            <li><a href="{% url 'polls:detail' question.id %}">{{question.question_text}}</a></li>
+            {% endfor %}
+        </ul>
+      {% else %}
+        <!--latest_question_list 객체에 내용이 없다면 No polls are available. 출력-->
+        <p>No polls are available.</p>
+      {% endif %}
+{% endblock %}
+
+{% block pagination %}
+    {% if is_paginated %}
+        <ul class="pagination justify-content-center pagination-sm">
+            {% if page_obj.has_previous %}
+            <!--이전 페이지가 있으면-->
+                <li class="page-item">
+                    <a class="page-link" href="{% url 'polls:index' %}?page={{page_obj.previous_page_number}}">Previous</a>
+                    <!--tabindex 지워서 Previous도 tab 키로 이동 가능-->
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1">Previous</a>
+                </li>
+            {% endif %}
+
+            {% for object in page_obj.paginator.page_range %}
+                <li class="page-item {% if page_obj.number == forloop.counter %} disabled{% endif%}">
+                    <a class="page-link" href="{{request.path}}?page={{forloop.counter}}">{{forloop.counter}}</a>
+                </li>
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+            <!--다음 페이지가 있으면-->
+                <li class="page-item">
+                    <a class="page-link" href="{%url 'polls:index' %}?page={{page_obj.next_page_number}}">Next</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#">Next</a>
+                </li>
+            {% endif %}
+        </ul>
+    {% endif %}
+{% endblock %}

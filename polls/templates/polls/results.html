@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %} Polls Results {% endblock %}
+
+{% block content %}
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'polls/style.css' %}">
+
+    <!--results 템플릿 코드-->
+    <!--질문을 제목으로 사용-->
+    <h1>{{question.question_text}}</h1>
+    <ul>
+        {% for choice in question.choice_set.all %}
+        <!--choice 객체를 순회하면서 choice_text를 리스트로 각 텍스트옆에 투표 카운트를 숫자로 화면에 보여줌-->
+        <li>{{choice.choice_text}} -- {{choice.votes}} vote{{choice.votes|pluralize}}</li>
+        {% endfor %}
+    </ul>
+
+    <!--결과화면에서 상세화면으로 돌아갈 수 있는 하이퍼링크가 연결된 Vote again?-->
+    <a href="{% url 'polls:detail' question.id %}">Vote again?</a>
+
+    <!--결과화면에서 목록화면으로 돌아갈 수 있는 하이퍼링크가 연결된 text-->
+    <a href="{% url 'polls:index' %}">Re-select the question?</a>
+
+{% endblock %}

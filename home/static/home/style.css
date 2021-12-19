@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+
+body {
+    background: white url("images/background.jpg") no-repeat; /* 배경 이미지 적용 */
+    background-position: center; /* 배경 이미지 위치 */
+    background-size: 20%;
+
+    height: 500px;
+    border-top: 10px solid #C4DEFF;
+    font-family: 'Jua', sans-serif; /* 폰트 적용 */
+}
+
+li a {
+    font-size: 23px;
+    color: #8EA8DB;
+}
+
+a {
+    margin-left : 15px;
+}
+
+h4 {
+    font-size: 20px;
+    color: #6A84B7;
+    margin-left : 15px;
+}

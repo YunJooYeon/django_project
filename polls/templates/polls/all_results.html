@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %} Polls's All Results {% endblock %}
+
+{% block content %}
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'polls/style.css' %}">
+
+    <!--전체 결과 화면에서 목록화면으로 갈 수 있는 버튼-->
+    <form action="{% url 'polls:index' %}" class="all_results_button">
+        {% csrf_token %}
+        <input type="submit" value="Are you going to go to the list of questions?" id="gotoAllResults">
+    </form>
+
+    <br><br>
+
+    {% if latest_question_list %}
+      <!--latest_question_list 객체에 내용이 있으면 allresult() 뷰 함수에 넘겨줌 -->
+        <ul>
+            {% for question in latest_question_list %}
+            <!--latest_question_list 객체의 내용을 순회하면서 반복--!>
+            <h3>{{question.question_text}}</h3>
+                {% for choice in question.choice_set.all %}
+                <!--choice 객체를 순회하면서 choice_text를 리스트로 각 텍스트옆에 투표 카운트를 숫자로 화면에 보여줌-->
+                <li>{{choice.choice_text}} -- {{choice.votes}} vote{{choice.votes|pluralize}}</li>
+                {% endfor %}
+            <br>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <!--latest_question_list 객체에 내용이 없다면 No polls are available. 출력-->
+        <p>No polls are available.</p>
+    {% endif %}
+
+
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %} Polls Detail {% endblock %}
+
+{% block content %}
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'polls/style.css' %}">
+
+    <!--detail 템플릿 코드-->
+    <!--질문을 제목으로 사용-->
+    <h1>{{question.question_text}}</h1>
+
+    <!--에러가 있으면 에러를 굵은 글자로 화면에 보여줌-->
+    {% if error_message %}<p><strong>{{error_message}}</strong></p>{% endif %}
+
+    <!--폼에 입력된 데이터는 POST 방식으로 polls:vote로 지정하여 보내줌-->
+    <form action="{% url 'polls:vote' question.id %}" method="post">
+        {% csrf_token %}
+        {% for choice in question.choice_set.all %}
+        <!--라디오 버튼으로 답변 항목을 보여줌, 해당 라디오 버튼을 선택하면 POST 데이터가 choice.id 형태로 구성됨-->
+        <input type="radio" name="choice" id="choice{{forloop.counter}}" value="{{choice.id}}">
+        <label for="choice{{forloop.counter}}">{{choice.choice_text}}</label><br>
+        {% endfor %}
+        <!--vote 버튼을 클릭하면 사용자가 선택한 폼 데이터가 POST 방식으로 polls:vote URL로 전송됨-->
+        <input type="submit" value="Vote">
+    </form>
+
+    <!--상세화면에서 목록화면으로 돌아갈 수 있는 버튼-->
+    <form action="{% url 'polls:index' %}">
+        {% csrf_token %}
+        <input type="submit" value="Re-select the question?" id="gotoIndex">
+    </form>
+{% endblock %}
